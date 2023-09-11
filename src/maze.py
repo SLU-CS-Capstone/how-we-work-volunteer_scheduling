@@ -68,5 +68,6 @@ class Maze:
             else:
                 result+='|\n'
         pdf.output("maze.pdf") 
-        print(result)
+        if(not ispdf):
+            print(result)
 
