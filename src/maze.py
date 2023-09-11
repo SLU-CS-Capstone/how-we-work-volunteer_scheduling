@@ -1,4 +1,5 @@
 from graph import Graph
+from fpdf import FPDF
 
 class Maze:
     def __init__(self, size):
@@ -36,7 +37,10 @@ class Maze:
                 if spanning_tree.has_edge(i, j):
                     self.graph.remove_edge(i, j);
                     
-    def print(self):
+    def print(self, ispdf):
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", size=12)
         result = ' '+('_ ' * (self.size-1))+'_\n'
         for i in range(self.size):
             result+='|'
@@ -57,6 +61,13 @@ class Maze:
                     result+=' '
                 elif i == self.size-1 and j < self.size-1:
                     result+='_'
-            result+='|\n'
-        print(result)
+            if(ispdf):
+                result += '|'
+                pdf.cell(0, 10, txt=result, ln=True)
+                result = ''
+            else:
+                result+='|\n'
+        pdf.output("maze.pdf") 
+        if(not ispdf):
+            print(result)
 
